@@ -4,6 +4,12 @@ Les versions s'écrivent `X.Y.Z-N` : `X.Y.Z` est la version de Diacamma incluse 
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [Non publié]
+
+### Modifié
+
+- La sonde de santé n'apparaît plus dans le journal du conteneur. Toutes les 30 secondes, une ligne `"GET /web/index.html HTTP/1.1" 200 … "Python-urllib/3.13"` remplissait l'onglet Journal de Container Manager. Les autres requêtes y restent, comme les échecs de la sonde.
+
 ## [2.7.10-5] - 2026-11-21
 
 Révision de l'empaquetage. Les versions de Diacamma Syndic, Diacamma Asso et Lucterios sont les mêmes que dans 2.7.10-4 : la mise à jour ne lance aucune migration. L'image est reconstruite avec les derniers correctifs de sécurité de Debian et de Python.

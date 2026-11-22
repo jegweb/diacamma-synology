@@ -265,6 +265,14 @@ code="$(http_code / inconnu.example.test)"
 [[ "$code" == 400 ]] || fail "un hôte inconnu reçoit $code au lieu de 400."
 log "OK : hôte inconnu → 400."
 
+# Journal d'accès : les requêtes ordinaires y figurent, mais pas la sonde de
+# santé, dont une réponse au moins a rendu le conteneur healthy.
+docker logs "$APP" 2>&1 | grep -F '"GET /static/settings.py HTTP/1.1" 404' >/dev/null \
+  || fail "les requêtes ne figurent pas dans le journal d'accès."
+! docker logs "$APP" 2>&1 | grep -E 'diacamma-healthcheck|Python-urllib' >/dev/null \
+  || fail "la sonde de santé apparaît dans le journal d'accès."
+log "OK : journal d'accès sans la sonde de santé."
+
 docker exec "$APP" diacamma version
 # Dans le conteneur de sauvegarde, sans réseau, comme la sauvegarde de la nuit.
 docker exec "$APP-sauvegarde" diacamma backup

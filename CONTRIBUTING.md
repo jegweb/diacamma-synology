@@ -39,6 +39,7 @@ Les mises à jour partent de la dernière version publiée, `ghcr.io/jegweb/diac
 
 - la connexion, et le refus de `admin`/`admin` ;
 - `/static/settings.py` et `/static/db.sqlite3` en 404, un hôte inconnu en 400 ;
+- le journal d'accès, qui contient les requêtes mais pas la sonde de santé ;
 - la sauvegarde puis la restauration ;
 - les réseaux : l'application sur le réseau `bridge` de Docker, la base et le service de sauvegarde sans réseau, aucun réseau créé par le projet ;
 - en PostgreSQL, la création du mot de passe de la base dans `secrets/`, et la connexion par le socket (`settings.py`) ;

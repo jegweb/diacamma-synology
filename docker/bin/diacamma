@@ -237,10 +237,13 @@ serve() {
   log "Démarrage de $NOM ($BUILD_ID, image ${DIACAMMA_IMAGE_VERSION:-inconnue})."
   # Un seul processus : le planificateur interne (envoi des courriels par
   # lots, archives, clôtures) vit dans le processus web.
+  # JournalSansSonde : journal d'accès sans les réponses réussies de la sonde
+  # de santé (une toutes les 30 s).
   exec gunicorn diacamma_wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 1 --worker-class gthread --threads "$threads" \
     --timeout "$timeout" --graceful-timeout 30 \
+    --logger-class diacamma_gunicorn.JournalSansSonde \
     --access-logfile - --error-logfile - \
     --access-logformat '%({x-forwarded-for}i)s "%(r)s" %(s)s %(b)s %(M)sms "%(a)s"'
 }

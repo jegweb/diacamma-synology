@@ -1,0 +1,56 @@
+# Exceptions de l'analyse des failles (.github/workflows/scan.yml).
+#
+# Seulement pour une faille sans effet sur l'image : composant absent, ou
+# jamais exécuté. Chaque entrée porte sa justification (statement) et une date
+# d'expiration (expired_at) : passé cette date, Trivy la signale de nouveau.
+# Retirer les entrées devenues inutiles à la publication suivante (voir
+# CONTRIBUTING.md, « Correctifs de sécurité »).
+
+vulnerabilities:
+  # krb5 1.21.3-5+deb13u1, corrigé dans +deb13u2 (analyse du 2026-11-23).
+  # Ces failles touchent le serveur Kerberos (KDC, kadmind), qui n'est pas dans
+  # l'image. Les bibliothèques clientes n'y sont que des dépendances de
+  # libcurl-gnutls, tirée par poppler. Il n'y a ni /etc/krb5.conf ni domaine
+  # Kerberos : rien dans l'image n'utilise Kerberos.
+  - id: CVE-2026-71199
+    statement: "krb5, KDC (CAMMAC) : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-71200
+    statement: "krb5, KDC (PKINIT) : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-107364
+    statement: "krb5, KDC : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112315
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112316
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112317
+    statement: "krb5, KDC : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112318
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112319
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112320
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112321
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112322
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-112323
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-118380
+    statement: "krb5, kadmind : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23
+  - id: CVE-2026-119079
+    statement: "krb5, KDC : serveur absent de l'image, Kerberos inutilisé"
+    expired_at: 2027-02-23

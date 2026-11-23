@@ -1,7 +1,9 @@
 # Analyse hebdomadaire des failles de l'image publiée (paquets Debian et
 # Python), avec Trivy. Seules les failles HIGH ou CRITICAL déjà corrigées en
 # amont sont signalées : un échec appelle une révision de l'image (voir
-# CONTRIBUTING.md, « Correctifs de sécurité »). GitHub envoie un courriel au
+# CONTRIBUTING.md, « Correctifs de sécurité »). Les failles sans effet sur
+# l'image sont écartées par .trivyignore.yaml, justifiées et avec une date
+# d'expiration ; le rapport les liste à part. GitHub envoie un courriel au
 # propriétaire du dépôt quand une exécution planifiée échoue.
 name: Failles de sécurité
 
@@ -26,8 +28,10 @@ jobs:
           set -o pipefail
           image="$(sed -nE 's/^ *image: *([^ :]*\/diacamma):.*/\1/p' docker-compose.yml | head -n 1):latest"
           echo "Image analysée : $image"
-          docker run --rm "$TRIVY" image --quiet --image-src remote --platform linux/amd64 \
+          docker run --rm -v "$PWD/.trivyignore.yaml:/trivyignore.yaml:ro" \
+            "$TRIVY" image --quiet --image-src remote --platform linux/amd64 \
             --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed \
+            --ignorefile /trivyignore.yaml --show-suppressed \
             --table-mode detailed --format table --exit-code 1 "$image" | tee rapport.txt
       - name: Résumé
         if: always()

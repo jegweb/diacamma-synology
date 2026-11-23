@@ -78,6 +78,8 @@ Les versions s'écrivent `X.Y.Z-N` (voir [CHANGELOG.md](CHANGELOG.md)).
 - **faille dans un paquet Debian** : il suffit de reconstruire, puisque la construction lance `apt-get upgrade` ;
 - **faille dans un paquet Python** : mettez à jour sa seule ligne dans `requirements.lock`, sans relancer `update-lock.sh`, qui ferait évoluer tout le reste ; la construction vérifie la cohérence avec `pip check`.
 
+Trivy signale tout le paquet touché, même quand la partie vulnérable est absente de l'image ou n'y sert jamais. C'est le cas, en novembre 2026, du serveur Kerberos (KDC, kadmind) : seules les bibliothèques clientes de krb5 sont installées, et rien n'utilise Kerberos. Pour une faille **sans effet sur l'image**, une exception suffit, sans nouvelle révision. Ajoutez-la dans `.trivyignore.yaml`, avec sa justification (`statement`) et une date d'expiration (`expired_at`, trois mois au plus) : passé cette date, l'analyse la signale de nouveau. Le rapport de l'analyse liste ces exceptions à part. La version suivante embarque le correctif de toute façon : retirez alors les exceptions devenues inutiles. En cas de doute sur l'effet d'une faille, publiez la révision.
+
 L'intégration continue reconstruit aussi l'image sans cache le 1er de chaque mois. GitHub suspend les tâches planifiées d'un dépôt public sans activité depuis 60 jours : relancez-les depuis l'onglet Actions si besoin.
 
 Les runners arm64 (`ubuntu-24.04-arm`) ne sont gratuits que pour les dépôts publics.
